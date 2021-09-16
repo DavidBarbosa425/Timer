@@ -22,23 +22,26 @@ function timer() {
 
 function start() {
   if(ss >= 1 && !document.querySelector('.timer').classList.contains('red')) return;
-  
-  document.querySelector('.timer').classList.remove('red')
-  cron = setInterval(function() { timer()
+    
+      document.querySelector('.timer').classList.remove('red')
+      cron = setInterval(function() { timer()
+    
+      }, 1000)
+    
 
-  }, 1000)
 }
 
 function stop() {
-  document.querySelector('.timer').classList.add('red')
   clearInterval(cron)
+  document.querySelector('.timer').classList.add('red')
+  
   
   
 }
 
 function reset() {
 
-  document.querySelector('.timer').innerHTML = '00:00:00'
+  document.querySelector('.timer').innerHTML = '00:00:00';
   document.querySelector('.timer').classList.add('red')
   hh = 0;
   mm = 0;
