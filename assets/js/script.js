@@ -1,62 +1,72 @@
-let hh = 0;
-let mm = 0;
-let ss = 0;
-let cron;
+  class Stopwatch {
+      constructor() {
+          this.hh = 0;
+          this.mm = 0;
+          this.ss = 0;
+          this.cron;
+      }
 
-function timer() {
-  
-  ss++
-  if(ss === 60) {
-    ss = 0;
-    mm++
+
+          timer() {
+    
+    this.ss++
+    if(this.ss === 60) {
+      this.ss = 0;
+      this.mm++
+    }
+
+    if(this.mm === 60) {
+      this.mm = 0;
+      this.hh++
+    }
+
+  this.format = (this.hh < 10 ? '0'+ this.hh : this.hh ) + ':' + (this.mm < 10 ?'0'+ this.mm : this.mm) + ':' + (this.ss < 10 ? '0' + this.ss : this.ss)
+    document.querySelector('.timer').innerHTML = this.format
   }
 
-  if(mm === 60) {
-    mm = 0;
-    hh++
+            start() {
+    if(this.ss >= 1 && !document.querySelector('.timer').classList.contains('red')) return;
+      
+        document.querySelector('.timer').classList.remove('red')
+        this.cron = setInterval(() => { this.timer()
+      
+        }, 1000)
+      
+
   }
 
-  let format = (hh < 10 ? '0'+ hh : hh ) + ':' + (mm < 10 ?'0'+ mm : mm) + ':' + (ss < 10 ? '0' + ss : ss)
-  document.querySelector('.timer').innerHTML = format
-}
-
-function start() {
-  if(ss >= 1 && !document.querySelector('.timer').classList.contains('red')) return;
+          stop() {
+    clearInterval(this.cron)
+    document.querySelector('.timer').classList.add('red')
     
-      document.querySelector('.timer').classList.remove('red')
-      cron = setInterval(function() { timer()
     
-      }, 1000)
     
+  }
 
-}
+          reset() {
 
-function stop() {
-  clearInterval(cron)
-  document.querySelector('.timer').classList.add('red')
-  
-  
-  
-}
-
-function reset() {
-
-  document.querySelector('.timer').innerHTML = '00:00:00';
-  document.querySelector('.timer').classList.add('red')
-  hh = 0;
-  mm = 0;
-  ss = 0;
-  clearInterval(cron)
+    document.querySelector('.timer').innerHTML = '00:00:00';
+    document.querySelector('.timer').classList.add('red')
+    this.hh = 0;
+    this.mm = 0;
+    this.ss = 0;
+    clearInterval(this.cron)
 
 
-}
+  }
 
+          captureClick() {
+            document.addEventListener('click', e => {
 
-document.addEventListener('click', e => {
+              let el = e.target;
+              if(el.classList.contains('start')) this.start()
+              if(el.classList.contains('stop')) this.stop()
+              if(el.classList.contains('reset')) this.reset()
+            
+            })
+          }
 
-  let el = e.target;
-  if(el.classList.contains('start')) start()
-  if(el.classList.contains('stop')) stop()
-  if(el.classList.contains('reset')) reset()
+  }
 
-})
+  let stopwatch = new Stopwatch();
+  stopwatch.captureClick()
